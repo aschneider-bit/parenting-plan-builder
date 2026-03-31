@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parenting Plan Builder — OFW Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NAV -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            OurFamilyWizard Pro
+        </a>
+        <ul class="nav-links">
+            <a href="index.html">My Cases</a>
+            <a href="#" class="">Messages</a>
+            <a href="#">Custody Schedule Builder</a>
+            <a href="index.html" class="active">Parenting Plan Builder</a>
+        </ul>
+        <div class="nav-right">
+            <div class="avatar" id="avatarInitials">LP</div>
+        </div>
+    </nav>
+
+    <!-- SETUP SCREEN -->
+    <div id="setupScreen" class="setup-bg" style="display:none;">
+        <div class="card" style="max-width:500px;width:100%;margin:24px;">
+            <div style="text-align:center;margin-bottom:24px;">
+                <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style="margin-bottom:12px;">
+                    <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                    <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 style="font-size:22px;color:#002b4e;">Parenting Plan Builder</h1>
+                <p style="color:#6c757d;font-size:14px;margin-top:4px;">Set up your firm to get started</p>
+            </div>
+            <form id="setupForm">
+                <div class="form-group">
+                    <label>Firm Name *</label>
+                    <input type="text" id="setupFirmName" required placeholder="e.g., The Law Office of John Anderson">
+                </div>
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" id="setupLawyerName" required placeholder="e.g., John Anderson">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="setupEmail" placeholder="john@andersonlaw.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="setupPhone" placeholder="(555) 123-4567">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">
+                    Create My Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboardScreen" class="container" style="display:none;">
+        <div class="page-header">
+            <h1>Parenting Plan Builder</h1>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-outline btn-sm" onclick="openModal('previewModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Preview Intake Form
+                </button>
+                <button class="btn btn-primary" onclick="createClient()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    New Client
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-label">Total Clients</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statPending">0</div>
+                <div class="stat-label">Awaiting Intake</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statCompleted">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <!-- Client List -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Clients</h2>
+            </div>
+            <div id="clientList"></div>
+        </div>
+    </div>
+
+    <!-- CLIENT DETAIL SCREEN -->
+    <div id="detailScreen" class="container" style="display:none;">
+        <div class="page-header">
+            <div>
+                <a href="#" onclick="showDashboard();return false;" style="color:var(--ofw-blue);text-decoration:none;font-size:14px;">&larr; Back to Dashboard</a>
+                <h1 style="margin-top:8px;" id="detailName">Client Details</h1>
+            </div>
+            <button class="btn btn-primary" onclick="downloadPdf()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Download PDF
+            </button>
+        </div>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- SHARE LINK MODAL -->
+    <div id="shareLinkModal" class="modal-overlay" onclick="if(event.target===this)closeModal('shareLinkModal')">
+        <div class="modal">
+            <h2>Share Intake Link</h2>
+            <p style="color:var(--ofw-gray-500);margin-bottom:16px;font-size:14px;">
+                Send this link to your client. They'll see your firm-branded intake form.
+            </p>
+            <div class="share-link-box">
+                <input type="text" id="shareLinkInput" readonly>
+                <button class="btn btn-primary btn-sm" onclick="copyLink()">Copy</button>
+            </div>
+            <div class="modal-actions" style="margin-top:16px;">
+                <button class="btn btn-outline" onclick="closeModal('shareLinkModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREVIEW MODAL -->
+    <div id="previewModal" class="modal-overlay" onclick="if(event.target===this)closeModal('previewModal')">
+        <div class="modal" style="max-width:700px;max-height:80vh;overflow-y:auto;">
+            <h2>Intake Form Preview</h2>
+            <p style="color:var(--ofw-gray-500);margin-bottom:20px;font-size:14px;">
+                This is what your clients will see when they open the intake link.
+            </p>
+            <div style="border:1px solid var(--ofw-gray-200);border-radius:8px;padding:24px;background:var(--ofw-gray-100);">
+                <div style="text-align:center;margin-bottom:20px;">
+                    <h3 style="color:var(--ofw-navy);" id="previewFirmName"></h3>
+                    <p style="color:var(--ofw-gray-500);font-size:13px;">Client Intake Form</p>
+                </div>
+                <div class="preview-section">
+                    <h3>Personal Information</h3>
+                    <div class="preview-field"><span class="label">Full Name</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Maiden Name</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Date of Birth</span><span class="value">Date</span></div>
+                    <div class="preview-field"><span class="label">City/State Where Born</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Driver's License (Last 3)</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">SSN (Last 3)</span><span class="value">Free text</span></div>
+                </div>
+                <div class="preview-section">
+                    <h3>Contact Information</h3>
+                    <div class="preview-field"><span class="label">Address</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">City</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">County</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">State</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Zip</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Phone</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Email</span><span class="value">Free text</span></div>
+                </div>
+                <div class="preview-section">
+                    <h3>Employment Information</h3>
+                    <div class="preview-field"><span class="label">Employer</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Job Title</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Employer Address</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Employer City/State/Zip</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Gross Salary</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Length of Employment</span><span class="value">Free text</span></div>
+                    <div class="preview-field"><span class="label">Education</span><span class="value">Free text</span></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal('previewModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

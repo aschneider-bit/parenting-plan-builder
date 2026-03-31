@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Intake Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="has-survey" style="background:#f0f4f8;">
+
+    <div class="intake-wrapper" id="intakeFormWrapper">
+        <div class="intake-header">
+            <svg width="40" height="40" viewBox="0 0 28 28" fill="none" style="margin-bottom:8px;">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 id="intakeFirmName">Intake Form</h1>
+            <p>Client Intake Form</p>
+        </div>
+
+        <form id="intakeForm">
+            <!-- Personal Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="full_name" required placeholder="Enter your full legal name">
+                    </div>
+                    <div class="form-group">
+                        <label>Maiden Name</label>
+                        <input type="text" name="maiden_name" placeholder="If applicable">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date of Birth *</label>
+                            <input type="date" name="birth_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City/State Where Born</label>
+                            <input type="text" name="city_state_born" placeholder="e.g., Minneapolis, MN">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Last 3 Digits of Driver's License</label>
+                            <input type="text" name="drivers_license_last3" maxlength="3" placeholder="XXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Last 3 Digits of Social Security Number</label>
+                            <input type="text" name="ssn_last3" maxlength="3" placeholder="XXX">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Contact Information</h3>
+                    <div class="form-group">
+                        <label>Street Address *</label>
+                        <input type="text" name="address" required placeholder="123 Main Street">
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" name="city" required placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label>County</label>
+                            <input type="text" name="county" placeholder="County">
+                        </div>
+                        <div class="form-group">
+                            <label>State *</label>
+                            <input type="text" name="state" required placeholder="State">
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Zip Code *</label>
+                            <input type="text" name="zip" required placeholder="55401">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" name="phone" required placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required placeholder="you@example.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employment Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Employment Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employer</label>
+                            <input type="text" name="employer" placeholder="Company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Job Title</label>
+                            <input type="text" name="job_title" placeholder="Your title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Employer Street Address</label>
+                        <input type="text" name="employer_address" placeholder="456 Business Blvd">
+                    </div>
+                    <div class="form-group">
+                        <label>Employer City, State, Zip</label>
+                        <input type="text" name="employer_city_state_zip" placeholder="Minneapolis, MN 55401">
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Gross Salary (per month or annually)</label>
+                            <input type="text" name="gross_salary" placeholder="$75,000/year">
+                        </div>
+                        <div class="form-group">
+                            <label>Length of Employment</label>
+                            <input type="text" name="length_of_employment" placeholder="e.g., 3 years">
+                        </div>
+                        <div class="form-group">
+                            <label>Education</label>
+                            <input type="text" name="education" placeholder="e.g., B.A. Business">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success" style="width:100%;justify-content:center;padding:14px;font-size:16px;">
+                Submit Intake Form
+            </button>
+        </form>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div id="intakeSuccess" class="intake-wrapper" style="display:none;">
+        <div class="intake-header">
+            <svg width="40" height="40" viewBox="0 0 28 28" fill="none" style="margin-bottom:8px;">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 id="successFirmName"></h1>
+        </div>
+        <div class="intake-card intake-submitted">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h2>Intake Form Submitted</h2>
+            <p id="successMessage" style="color:var(--ofw-gray-500);max-width:400px;margin:0 auto;"></p>
+        </div>
+    </div>
+
+    <!-- Survey Bar -->
+    <div class="survey-bar" id="surveyBar">
+        <span>What should we add to the intake form next?</span>
+        <select id="surveySelect">
+            <option value="">Select one...</option>
+            <option value="Custody schedule">Custody schedule</option>
+            <option value="Expenses and money">Expenses and money</option>
+            <option value="Child support">Child support</option>
+            <option value="Exchanges">Exchanges</option>
+            <option value="Communication">Communication</option>
+            <option value="Other">Other</option>
+        </select>
+        <button class="btn btn-primary" onclick="submitSurvey()">Submit</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+    <script>
+    // Read params
+    const params = new URLSearchParams(window.location.search);
+    const firmName = params.get('firm') || 'Intake Form';
+    const lawyerName = params.get('lawyer') || '';
+    const clientToken = params.get('token') || '';
+
+    document.getElementById('intakeFirmName').textContent = firmName;
+    document.title = `Client Intake — ${firmName}`;
+
+    // Check if already submitted
+    if (clientToken && localStorage.getItem(`intake_submitted_${clientToken}`)) {
+        document.getElementById('intakeFormWrapper').style.display = 'none';
+        document.getElementById('intakeSuccess').style.display = 'block';
+        document.getElementById('successFirmName').textContent = firmName;
+        document.getElementById('successMessage').innerHTML =
+            `Your information has been submitted. Your attorney will review your details and be in touch.`;
+    }
+
+    // Handle form submit
+    document.getElementById('intakeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        data.submitted_at = new Date().toISOString();
+        data.firm_name = firmName;
+        data.lawyer_name = lawyerName;
+
+        // Store in localStorage
+        const key = clientToken || ('intake_' + Date.now());
+        localStorage.setItem(`intake_data_${key}`, JSON.stringify(data));
+        if (clientToken) {
+            localStorage.setItem(`intake_submitted_${clientToken}`, 'true');
+        }
+
+        // Show success
+        document.getElementById('intakeFormWrapper').style.display = 'none';
+        document.getElementById('intakeSuccess').style.display = 'block';
+        document.getElementById('successFirmName').textContent = firmName;
+        document.getElementById('successMessage').innerHTML =
+            `Thank you, <strong>${data.full_name}</strong>. Your information has been securely submitted to ${lawyerName || 'your attorney'}.`;
+
+        // Generate PDF for download
+        generateIntakePdf(data, firmName, lawyerName);
+    });
+
+    function generateIntakePdf(data, firm, lawyer) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 20;
+
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text(firm, 105, y, { align: 'center' }); y += 7;
+        if (lawyer) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Attorney: ${lawyer}`, 105, y, { align: 'center' }); y += 10;
+        }
+
+        doc.setDrawColor(0, 82, 136);
+        doc.setLineWidth(0.5);
+        doc.line(10, y, 200, y); y += 8;
+
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Client Intake Form - Completed', 105, y, { align: 'center' }); y += 6;
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'italic');
+        doc.text(`Submitted: ${new Date(data.submitted_at).toLocaleDateString()}`, 105, y, { align: 'center' }); y += 10;
+
+        function section(title) {
+            doc.setFillColor(0, 82, 136);
+            doc.rect(10, y, 190, 8, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`  ${title}`, 12, y + 5.5);
+            doc.setTextColor(0, 0, 0);
+            y += 12;
+        }
+
+        function field(label, value) {
+            if (y > 270) { doc.addPage(); y = 20; }
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text(`${label}:`, 14, y);
+            doc.setFont('helvetica', 'normal');
+            doc.text(value || 'N/A', 70, y);
+            y += 7;
+        }
+
+        section('Personal Information');
+        field('Full Name', data.full_name);
+        field('Maiden Name', data.maiden_name);
+        field('Date of Birth', data.birth_date);
+        field('City/State Born', data.city_state_born);
+        field("Driver's License (Last 3)", data.drivers_license_last3);
+        field('SSN (Last 3)', data.ssn_last3);
+        y += 4;
+
+        section('Contact Information');
+        field('Address', data.address);
+        field('City', data.city);
+        field('County', data.county);
+        field('State', data.state);
+        field('Zip', data.zip);
+        field('Phone', data.phone);
+        field('Email', data.email);
+        y += 4;
+
+        section('Employment Information');
+        field('Employer', data.employer);
+        field('Job Title', data.job_title);
+        field('Employer Address', data.employer_address);
+        field('Employer City/State/Zip', data.employer_city_state_zip);
+        field('Gross Salary', data.gross_salary);
+        field('Length of Employment', data.length_of_employment);
+        field('Education', data.education);
+
+        y += 10;
+        doc.setDrawColor(0, 82, 136);
+        doc.line(10, y, 200, y); y += 5;
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'italic');
+        doc.text('Generated by OurFamilyWizard Pro - Parenting Plan Builder', 105, y, { align: 'center' });
+
+        doc.save(`intake_${(data.full_name || 'client').replace(/\s+/g, '_')}.pdf`);
+    }
+
+    function submitSurvey() {
+        const sel = document.getElementById('surveySelect').value;
+        if (!sel) return;
+        // Store survey locally
+        const surveys = JSON.parse(localStorage.getItem('ppb_surveys') || '[]');
+        surveys.push({ selection: sel, date: new Date().toISOString() });
+        localStorage.setItem('ppb_surveys', JSON.stringify(surveys));
+        document.getElementById('surveyBar').innerHTML = '<span class="survey-thanks">Thank you for your feedback!</span>';
+    }
+    </script>
+</body>
+</html>
