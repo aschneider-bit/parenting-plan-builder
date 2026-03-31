@@ -6,7 +6,7 @@
     <title>Parenting Plan Builder — OFW Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-survey">
     <!-- NAV -->
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
@@ -183,9 +183,34 @@
         </div>
     </div>
 
+    <!-- SURVEY BAR (permanently fixed at bottom) -->
+    <div class="survey-bar" id="surveyBar">
+        <span>What should we add to the intake form next? Your feedback will help us prioritize what to build next. (Select one)</span>
+        <select id="surveySelect">
+            <option value="">Select one...</option>
+            <option value="Custody schedule">Custody schedule</option>
+            <option value="Expenses and money">Expenses and money</option>
+            <option value="Child support">Child support</option>
+            <option value="Exchanges">Exchanges</option>
+            <option value="Communication">Communication</option>
+            <option value="Other">Other</option>
+        </select>
+        <button class="btn btn-primary" onclick="submitSurvey()">Submit</button>
+    </div>
+
     <div id="toast" class="toast"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
     <script src="app.js"></script>
+    <script>
+    function submitSurvey() {
+        const sel = document.getElementById('surveySelect').value;
+        if (!sel) return;
+        const surveys = JSON.parse(localStorage.getItem('ppb_surveys') || '[]');
+        surveys.push({ selection: sel, date: new Date().toISOString() });
+        localStorage.setItem('ppb_surveys', JSON.stringify(surveys));
+        document.getElementById('surveyBar').innerHTML = '<span class="survey-thanks">Thank you for your feedback!</span>';
+    }
+    </script>
 </body>
 </html>
