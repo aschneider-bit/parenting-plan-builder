@@ -466,6 +466,30 @@ tbody tr:hover { background: var(--ofw-gray-100); }
 /* Body padding for survey bar */
 body.has-survey { padding-bottom: 56px; }
 
+/* === SURVEY OPTIONS (inline) === */
+.survey-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--ofw-gray-200);
+    border-radius: var(--ofw-radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+}
+
+.survey-option:hover {
+    background: var(--ofw-blue-pale);
+    border-color: var(--ofw-blue);
+}
+
+.survey-option input[type="radio"] {
+    accent-color: var(--ofw-blue);
+    width: 16px;
+    height: 16px;
+}
+
 /* === EMPTY STATE === */
 .empty-state {
     text-align: center;

@@ -6,7 +6,7 @@
     <title>Parenting Plan Builder — OFW Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="has-survey">
+<body>
     <!-- NAV -->
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
@@ -101,6 +101,25 @@
             </div>
             <div id="clientList"></div>
         </div>
+
+        <!-- SURVEY (inline in page) -->
+        <div class="card" id="surveyCard" style="margin-top:16px;">
+            <div class="card-header">
+                <h2>What should we add to the intake form next?</h2>
+            </div>
+            <p style="color:var(--ofw-gray-500);font-size:14px;margin-bottom:16px;">
+                Your feedback will help us prioritize what to build next. (Select one)
+            </p>
+            <div id="surveyOptions" style="display:flex;flex-direction:column;gap:8px;">
+                <label class="survey-option"><input type="radio" name="survey" value="Custody schedule"> Custody schedule</label>
+                <label class="survey-option"><input type="radio" name="survey" value="Expenses and money"> Expenses and money</label>
+                <label class="survey-option"><input type="radio" name="survey" value="Child support"> Child support</label>
+                <label class="survey-option"><input type="radio" name="survey" value="Exchanges"> Exchanges</label>
+                <label class="survey-option"><input type="radio" name="survey" value="Communication"> Communication</label>
+                <label class="survey-option"><input type="radio" name="survey" value="Other"> Other</label>
+            </div>
+            <button class="btn btn-primary" style="margin-top:16px;" onclick="submitSurvey()">Submit Feedback</button>
+        </div>
     </div>
 
     <!-- CLIENT DETAIL SCREEN -->
@@ -183,33 +202,19 @@
         </div>
     </div>
 
-    <!-- SURVEY BAR (permanently fixed at bottom) -->
-    <div class="survey-bar" id="surveyBar">
-        <span>What should we add to the intake form next? Your feedback will help us prioritize what to build next. (Select one)</span>
-        <select id="surveySelect">
-            <option value="">Select one...</option>
-            <option value="Custody schedule">Custody schedule</option>
-            <option value="Expenses and money">Expenses and money</option>
-            <option value="Child support">Child support</option>
-            <option value="Exchanges">Exchanges</option>
-            <option value="Communication">Communication</option>
-            <option value="Other">Other</option>
-        </select>
-        <button class="btn btn-primary" onclick="submitSurvey()">Submit</button>
-    </div>
-
     <div id="toast" class="toast"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
     <script src="app.js"></script>
     <script>
     function submitSurvey() {
-        const sel = document.getElementById('surveySelect').value;
-        if (!sel) return;
+        const selected = document.querySelector('input[name="survey"]:checked');
+        if (!selected) return;
         const surveys = JSON.parse(localStorage.getItem('ppb_surveys') || '[]');
-        surveys.push({ selection: sel, date: new Date().toISOString() });
+        surveys.push({ selection: selected.value, date: new Date().toISOString() });
         localStorage.setItem('ppb_surveys', JSON.stringify(surveys));
-        document.getElementById('surveyBar').innerHTML = '<span class="survey-thanks">Thank you for your feedback!</span>';
+        document.getElementById('surveyCard').innerHTML =
+            '<div style="text-align:center;padding:24px;"><span class="survey-thanks" style="font-size:16px;">Thank you for your feedback!</span></div>';
     }
     </script>
 </body>
