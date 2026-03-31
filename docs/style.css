@@ -466,6 +466,15 @@ tbody tr:hover { background: var(--ofw-gray-100); }
 /* Body padding for survey bar */
 body.has-survey { padding-bottom: 56px; }
 
+/* === SETUP BG === */
+.setup-bg {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #002b4e 0%, #005288 100%);
+}
+
 /* === SURVEY OPTIONS (inline) === */
 .survey-option {
     display: flex;

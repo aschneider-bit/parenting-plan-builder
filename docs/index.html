@@ -102,8 +102,26 @@
             <div id="clientList"></div>
         </div>
 
-        <!-- SURVEY (inline in page) -->
-        <div class="card" id="surveyCard" style="margin-top:16px;">
+    </div>
+
+    <!-- CLIENT DETAIL SCREEN -->
+    <div id="detailScreen" class="container" style="display:none;">
+        <div class="page-header">
+            <div>
+                <a href="#" onclick="showDashboard();return false;" style="color:var(--ofw-blue);text-decoration:none;font-size:14px;">&larr; Back to Dashboard</a>
+                <h1 style="margin-top:8px;" id="detailName">Client Details</h1>
+            </div>
+            <button class="btn btn-primary" onclick="downloadPdf()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Download PDF
+            </button>
+        </div>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- SURVEY (always visible, inline in page) -->
+    <div class="container" id="surveyCard">
+        <div class="card" style="margin-top:8px;">
             <div class="card-header">
                 <h2>What should we add to the intake form next?</h2>
             </div>
@@ -120,21 +138,6 @@
             </div>
             <button class="btn btn-primary" style="margin-top:16px;" onclick="submitSurvey()">Submit Feedback</button>
         </div>
-    </div>
-
-    <!-- CLIENT DETAIL SCREEN -->
-    <div id="detailScreen" class="container" style="display:none;">
-        <div class="page-header">
-            <div>
-                <a href="#" onclick="showDashboard();return false;" style="color:var(--ofw-blue);text-decoration:none;font-size:14px;">&larr; Back to Dashboard</a>
-                <h1 style="margin-top:8px;" id="detailName">Client Details</h1>
-            </div>
-            <button class="btn btn-primary" onclick="downloadPdf()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                Download PDF
-            </button>
-        </div>
-        <div id="detailContent"></div>
     </div>
 
     <!-- SHARE LINK MODAL -->
