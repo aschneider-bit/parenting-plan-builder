@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted — {{ lawyer.firm_name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="has-survey" style="background: #f0f4f8;">
+    <div class="intake-wrapper">
+        <div class="intake-header">
+            <svg width="40" height="40" viewBox="0 0 28 28" fill="none" style="margin-bottom: 8px;">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1>{{ lawyer.firm_name }}</h1>
+        </div>
+
+        <div class="intake-card intake-submitted">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h2>Intake Form Submitted</h2>
+            <p style="color: var(--ofw-gray-500); max-width: 400px; margin: 0 auto;">
+                Thank you, <strong>{{ name }}</strong>. Your information has been securely submitted to {{ lawyer.lawyer_name }}.
+                Your attorney will review your details and be in touch.
+            </p>
+        </div>
+    </div>
+
+    <!-- Survey Bar -->
+    <div class="survey-bar" id="surveyBar">
+        <span>What should we add to the intake form next?</span>
+        <select id="surveySelect">
+            <option value="">Select one...</option>
+            <option value="Custody schedule">Custody schedule</option>
+            <option value="Expenses and money">Expenses and money</option>
+            <option value="Child support">Child support</option>
+            <option value="Exchanges">Exchanges</option>
+            <option value="Communication">Communication</option>
+            <option value="Other">Other</option>
+        </select>
+        <button class="btn btn-primary" onclick="submitSurvey()">Submit</button>
+    </div>
+
+    <script>
+    function submitSurvey() {
+        const selection = document.getElementById('surveySelect').value;
+        if (!selection) return;
+        fetch('/api/survey', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ selection: selection })
+        }).then(r => r.json()).then(() => {
+            document.getElementById('surveyBar').innerHTML = '<span class="survey-thanks">Thank you for your feedback!</span>';
+        });
+    }
+    </script>
+</body>
+</html>

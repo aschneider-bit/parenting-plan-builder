@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Intake — {{ lawyer.firm_name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="has-survey" style="background: #f0f4f8;">
+
+    <div class="intake-wrapper">
+        <div class="intake-header">
+            <svg width="40" height="40" viewBox="0 0 28 28" fill="none" style="margin-bottom: 8px;">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1>{{ lawyer.firm_name }}</h1>
+            <p>Client Intake Form</p>
+        </div>
+
+        {% if already_submitted %}
+        <div class="intake-card intake-submitted">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h2>Thank you!</h2>
+            <p style="color: var(--ofw-gray-500);">Your intake form has already been submitted. Your attorney will review your information.</p>
+        </div>
+        {% else %}
+
+        <form method="POST" action="/intake/{{ token }}/submit" id="intakeForm">
+            <!-- Personal Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="full_name" required placeholder="Enter your full legal name">
+                    </div>
+                    <div class="form-group">
+                        <label>Maiden Name</label>
+                        <input type="text" name="maiden_name" placeholder="If applicable">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date of Birth *</label>
+                            <input type="date" name="birth_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City/State Where Born</label>
+                            <input type="text" name="city_state_born" placeholder="e.g., Minneapolis, MN">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Last 3 Digits of Driver's License</label>
+                            <input type="text" name="drivers_license_last3" maxlength="3" placeholder="XXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Last 3 Digits of Social Security Number</label>
+                            <input type="text" name="ssn_last3" maxlength="3" placeholder="XXX">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Contact Information</h3>
+                    <div class="form-group">
+                        <label>Street Address *</label>
+                        <input type="text" name="address" required placeholder="123 Main Street">
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" name="city" required placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label>County</label>
+                            <input type="text" name="county" placeholder="County">
+                        </div>
+                        <div class="form-group">
+                            <label>State *</label>
+                            <input type="text" name="state" required placeholder="State">
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Zip Code *</label>
+                            <input type="text" name="zip" required placeholder="55401">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" name="phone" required placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required placeholder="you@example.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employment Information -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Employment Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employer</label>
+                            <input type="text" name="employer" placeholder="Company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Job Title</label>
+                            <input type="text" name="job_title" placeholder="Your title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Employer Street Address</label>
+                        <input type="text" name="employer_address" placeholder="456 Business Blvd">
+                    </div>
+                    <div class="form-group">
+                        <label>Employer City, State, Zip</label>
+                        <input type="text" name="employer_city_state_zip" placeholder="Minneapolis, MN 55401">
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Gross Salary (per month or annually)</label>
+                            <input type="text" name="gross_salary" placeholder="$75,000/year">
+                        </div>
+                        <div class="form-group">
+                            <label>Length of Employment</label>
+                            <input type="text" name="length_of_employment" placeholder="e.g., 3 years">
+                        </div>
+                        <div class="form-group">
+                            <label>Education</label>
+                            <input type="text" name="education" placeholder="e.g., B.A. Business">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success" style="width: 100%; justify-content: center; padding: 14px; font-size: 16px;">
+                Submit Intake Form
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- Survey Bar -->
+    <div class="survey-bar" id="surveyBar">
+        <span>What should we add to the intake form next?</span>
+        <select id="surveySelect">
+            <option value="">Select one...</option>
+            <option value="Custody schedule">Custody schedule</option>
+            <option value="Expenses and money">Expenses and money</option>
+            <option value="Child support">Child support</option>
+            <option value="Exchanges">Exchanges</option>
+            <option value="Communication">Communication</option>
+            <option value="Other">Other</option>
+        </select>
+        <button class="btn btn-primary" onclick="submitSurvey()">Submit</button>
+    </div>
+
+    <script>
+    function submitSurvey() {
+        const selection = document.getElementById('surveySelect').value;
+        if (!selection) return;
+
+        fetch('/api/survey', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                selection: selection,
+                client_id: '{{ token }}'
+            })
+        }).then(r => r.json()).then(() => {
+            document.getElementById('surveyBar').innerHTML = '<span class="survey-thanks">Thank you for your feedback!</span>';
+        });
+    }
+    </script>
+</body>
+</html>

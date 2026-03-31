@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Parenting Plan Builder</h1>
+    <div style="display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('previewModal').classList.add('active')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview Intake Form
+        </button>
+        <button class="btn btn-primary" onclick="document.getElementById('newClientModal').classList.add('active')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Client
+        </button>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_clients }}</div>
+        <div class="stat-label">Total Clients</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ pending_count }}</div>
+        <div class="stat-label">Awaiting Intake</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ completed_count }}</div>
+        <div class="stat-label">Completed</div>
+    </div>
+</div>
+
+<!-- Client List -->
+<div class="card">
+    <div class="card-header">
+        <h2>Clients</h2>
+    </div>
+
+    {% if clients %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>
+                        <strong>{{ client.full_name or 'Pending intake' }}</strong>
+                        {% if client.client_email %}
+                        <br><span style="font-size: 12px; color: var(--ofw-gray-500);">{{ client.client_email }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if client.status == 'completed' %}
+                        <span class="badge badge-completed">Completed</span>
+                        {% else %}
+                        <span class="badge badge-pending">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ client.created_at[:10] }}</td>
+                    <td>{{ client.completed_at[:10] if client.completed_at else '—' }}</td>
+                    <td>
+                        <div class="actions-cell">
+                            {% if client.status == 'pending' %}
+                            <button class="btn btn-outline btn-sm" onclick="showShareLink('{{ client.intake_token }}')">
+                                Share Link
+                            </button>
+                            {% else %}
+                            <a href="/clients/{{ client.id }}" class="btn btn-outline btn-sm">View</a>
+                            <a href="/clients/{{ client.id }}/pdf" class="btn btn-primary btn-sm">
+                                PDF
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+        </svg>
+        <h3>No clients yet</h3>
+        <p>Click "New Client" to create an intake link and send it to your client.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- New Client Modal -->
+<div id="newClientModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal">
+        <h2>Create New Client</h2>
+        <p style="color: var(--ofw-gray-500); margin-bottom: 16px; font-size: 14px;">
+            This will generate a unique intake link you can share with your client. They'll fill out the intake form and you'll receive the completed responses.
+        </p>
+        <form method="POST" action="/clients/new">
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" onclick="this.closest('.modal-overlay').classList.remove('active')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create & Get Link</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Share Link Modal -->
+<div id="shareLinkModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal">
+        <h2>Share Intake Link</h2>
+        <p style="color: var(--ofw-gray-500); margin-bottom: 16px; font-size: 14px;">
+            Send this link to your client. They'll see your firm-branded intake form.
+        </p>
+        <div class="share-link-box">
+            <input type="text" id="shareLinkInput" readonly>
+            <button class="btn btn-primary btn-sm" onclick="copyLink(document.getElementById('shareLinkInput'))">Copy</button>
+        </div>
+        <div class="modal-actions" style="margin-top: 16px;">
+            <button type="button" class="btn btn-outline" onclick="this.closest('.modal-overlay').classList.remove('active')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Intake Modal -->
+<div id="previewModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+        <h2>Intake Form Preview</h2>
+        <p style="color: var(--ofw-gray-500); margin-bottom: 20px; font-size: 14px;">
+            This is what your clients will see when they open the intake link.
+        </p>
+        <div style="border: 1px solid var(--ofw-gray-200); border-radius: 8px; padding: 24px; background: var(--ofw-gray-100);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3 style="color: var(--ofw-navy);">{{ lawyer.firm_name }}</h3>
+                <p style="color: var(--ofw-gray-500); font-size: 13px;">Client Intake Form</p>
+            </div>
+            <div class="preview-section">
+                <h3>Personal Information</h3>
+                <div class="preview-field"><span class="label">Full Name</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Maiden Name</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Date of Birth</span><span class="value">Date</span></div>
+                <div class="preview-field"><span class="label">City/State Where Born</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Driver's License (Last 3)</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">SSN (Last 3)</span><span class="value">Free text</span></div>
+            </div>
+            <div class="preview-section">
+                <h3>Contact Information</h3>
+                <div class="preview-field"><span class="label">Address</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">City</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">County</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">State</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Zip</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Phone</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Email</span><span class="value">Free text</span></div>
+            </div>
+            <div class="preview-section">
+                <h3>Employment Information</h3>
+                <div class="preview-field"><span class="label">Employer</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Job Title</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Employer Address</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Employer City/State/Zip</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Gross Salary</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Length of Employment</span><span class="value">Free text</span></div>
+                <div class="preview-field"><span class="label">Education</span><span class="value">Free text</span></div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-outline" onclick="this.closest('.modal-overlay').classList.remove('active')">Close</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showShareLink(token) {
+    const baseUrl = window.location.origin;
+    document.getElementById('shareLinkInput').value = `${baseUrl}/intake/${token}`;
+    document.getElementById('shareLinkModal').classList.add('active');
+}
+</script>
+{% endblock %}

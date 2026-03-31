@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Parenting Plan Builder{% endblock %} — OFW Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+    {% block head %}{% endblock %}
+</head>
+<body{% if show_survey %} class="has-survey"{% endif %}>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <rect width="28" height="28" rx="6" fill="#F5A623"/>
+                <path d="M7 14L12 19L21 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            OurFamilyWizard Pro
+        </a>
+        <ul class="nav-links">
+            <a href="/" class="{% if active_tab == 'dashboard' %}active{% endif %}">My Cases</a>
+            <a href="#" class="">Messages</a>
+            <a href="#" class="">Custody Schedule Builder</a>
+            <a href="/" class="{% if active_tab == 'plans' %}active{% endif %}">Parenting Plan Builder</a>
+        </ul>
+        <div class="nav-right">
+            <div class="avatar">{{ lawyer_initials or 'LP' }}</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block survey %}{% endblock %}
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    function copyLink(input) {
+        input.select();
+        navigator.clipboard.writeText(input.value).then(() => showToast('Link copied to clipboard!'));
+    }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
