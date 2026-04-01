@@ -73,7 +73,6 @@ function showDetail(clientId) {
             fields: [
                 ['Full Name', intake.full_name], ['Maiden Name', intake.maiden_name],
                 ['Date of Birth', intake.birth_date], ['City/State Where Born', intake.city_state_born],
-                ["Driver's License (Last 3)", intake.drivers_license_last3], ['SSN (Last 3)', intake.ssn_last3],
             ]
         },
         {
@@ -105,7 +104,6 @@ function showDetail(clientId) {
             fields: [
                 ['Employer', intake.employer], ['Job Title', intake.job_title],
                 ['Employer Address, City, State, Zip', intake.employer_address_full],
-                ['Gross Salary', intake.gross_salary],
                 ['Length of Employment', intake.length_of_employment],
                 ['Education', intake.education],
             ]
@@ -317,8 +315,6 @@ function downloadPdf() {
     field('Maiden Name', data.maiden_name);
     field('Date of Birth', data.birth_date);
     field('City/State Born', data.city_state_born);
-    field("Driver's License (Last 3)", data.drivers_license_last3);
-    field('SSN (Last 3)', data.ssn_last3);
     y += 4;
 
     section('Contact Information');
@@ -347,7 +343,6 @@ function downloadPdf() {
     field('Employer', data.employer);
     field('Job Title', data.job_title);
     field('Employer Address', data.employer_address_full);
-    field('Gross Salary', data.gross_salary);
     field('Length of Employment', data.length_of_employment);
     field('Education', data.education);
 

@@ -41,16 +41,6 @@
                             <input type="text" name="city_state_born" placeholder="e.g., Minneapolis, MN">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Last 3 Digits of Driver's License</label>
-                            <input type="text" name="drivers_license_last3" maxlength="3" placeholder="XXX">
-                        </div>
-                        <div class="form-group">
-                            <label>Last 3 Digits of Social Security Number</label>
-                            <input type="text" name="ssn_last3" maxlength="3" placeholder="XXX">
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -151,11 +141,7 @@
                         <label>Employer Street Address, City, State and Zip</label>
                         <input type="text" name="employer_address_full" placeholder="456 Business Blvd, Minneapolis, MN 55401">
                     </div>
-                    <div class="form-row-3">
-                        <div class="form-group">
-                            <label>Gross Salary (per month or annually)</label>
-                            <input type="text" name="gross_salary" placeholder="$75,000/year">
-                        </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Length of Employment</label>
                             <input type="text" name="length_of_employment" placeholder="e.g., 3 years">
@@ -306,8 +292,6 @@
         field('Maiden Name', data.maiden_name);
         field('Date of Birth', data.birth_date);
         field('City/State Born', data.city_state_born);
-        field("Driver's License (Last 3)", data.drivers_license_last3);
-        field('SSN (Last 3)', data.ssn_last3);
         y += 4;
 
         section('Contact Information');
@@ -336,7 +320,6 @@
         field('Employer', data.employer);
         field('Job Title', data.job_title);
         field('Employer Address', data.employer_address_full);
-        field('Gross Salary', data.gross_salary);
         field('Length of Employment', data.length_of_employment);
         field('Education', data.education);
 
