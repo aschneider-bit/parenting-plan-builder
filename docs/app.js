@@ -85,11 +85,26 @@ function showDetail(clientId) {
             ]
         },
         {
-            title: 'Employment Information',
+            title: 'Marriage',
+            fields: [
+                ['Date of Marriage', intake.date_of_marriage],
+                ['Date of Separation', intake.date_of_separation],
+                ['Major Events', intake.major_events],
+            ]
+        },
+        {
+            title: 'Child(ren)',
+            fields: [
+                ['Child Names and Ages', intake.child_names_ages],
+                ['Current Living Arrangement', intake.current_living_arrangement],
+                ['School', intake.school],
+            ]
+        },
+        {
+            title: 'Employment',
             fields: [
                 ['Employer', intake.employer], ['Job Title', intake.job_title],
-                ['Employer Address', intake.employer_address],
-                ['Employer City/State/Zip', intake.employer_city_state_zip],
+                ['Employer Address, City, State, Zip', intake.employer_address_full],
                 ['Gross Salary', intake.gross_salary],
                 ['Length of Employment', intake.length_of_employment],
                 ['Education', intake.education],
@@ -316,11 +331,22 @@ function downloadPdf() {
     field('Email', data.email);
     y += 4;
 
-    section('Employment Information');
+    section('Marriage');
+    field('Date of Marriage', data.date_of_marriage);
+    field('Date of Separation', data.date_of_separation);
+    field('Major Events', data.major_events);
+    y += 4;
+
+    section('Child(ren)');
+    field('Child Names and Ages', data.child_names_ages);
+    field('Current Living Arrangement', data.current_living_arrangement);
+    field('School', data.school);
+    y += 4;
+
+    section('Employment');
     field('Employer', data.employer);
     field('Job Title', data.job_title);
-    field('Employer Address', data.employer_address);
-    field('Employer City/State/Zip', data.employer_city_state_zip);
+    field('Employer Address', data.employer_address_full);
     field('Gross Salary', data.gross_salary);
     field('Length of Employment', data.length_of_employment);
     field('Education', data.education);

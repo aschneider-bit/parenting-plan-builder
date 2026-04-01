@@ -93,10 +93,50 @@
                 </div>
             </div>
 
+            <!-- Marriage -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Marriage</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date of Marriage</label>
+                            <input type="date" name="date_of_marriage">
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Separation</label>
+                            <input type="date" name="date_of_separation">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Major Events (moving out, incidents, financial changes)</label>
+                        <textarea name="major_events" rows="4" placeholder="Describe any major events such as moving out, incidents, or financial changes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Child(ren) -->
+            <div class="intake-card">
+                <div class="form-section">
+                    <h3>Child(ren)</h3>
+                    <div class="form-group">
+                        <label>Child Names and Ages</label>
+                        <textarea name="child_names_ages" rows="3" placeholder="e.g., Emma (8), Jack (5)"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Current Living Arrangement</label>
+                        <input type="text" name="current_living_arrangement" placeholder="e.g., Children live with mother, father has weekends">
+                    </div>
+                    <div class="form-group">
+                        <label>School</label>
+                        <input type="text" name="school" placeholder="e.g., Lincoln Elementary">
+                    </div>
+                </div>
+            </div>
+
             <!-- Employment Information -->
             <div class="intake-card">
                 <div class="form-section">
-                    <h3>Employment Information</h3>
+                    <h3>Employment</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Employer</label>
@@ -108,12 +148,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Employer Street Address</label>
-                        <input type="text" name="employer_address" placeholder="456 Business Blvd">
-                    </div>
-                    <div class="form-group">
-                        <label>Employer City, State, Zip</label>
-                        <input type="text" name="employer_city_state_zip" placeholder="Minneapolis, MN 55401">
+                        <label>Employer Street Address, City, State and Zip</label>
+                        <input type="text" name="employer_address_full" placeholder="456 Business Blvd, Minneapolis, MN 55401">
                     </div>
                     <div class="form-row-3">
                         <div class="form-group">
@@ -284,11 +320,22 @@
         field('Email', data.email);
         y += 4;
 
-        section('Employment Information');
+        section('Marriage');
+        field('Date of Marriage', data.date_of_marriage);
+        field('Date of Separation', data.date_of_separation);
+        field('Major Events', data.major_events);
+        y += 4;
+
+        section('Child(ren)');
+        field('Child Names and Ages', data.child_names_ages);
+        field('Current Living Arrangement', data.current_living_arrangement);
+        field('School', data.school);
+        y += 4;
+
+        section('Employment');
         field('Employer', data.employer);
         field('Job Title', data.job_title);
-        field('Employer Address', data.employer_address);
-        field('Employer City/State/Zip', data.employer_city_state_zip);
+        field('Employer Address', data.employer_address_full);
         field('Gross Salary', data.gross_salary);
         field('Length of Employment', data.length_of_employment);
         field('Education', data.education);
